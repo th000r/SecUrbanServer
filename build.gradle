@@ -17,7 +17,7 @@ dependencies {
     testImplementation 'org.jetbrains.kotlin:kotlin-test-junit5'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.0'
-    implementation 'io.ktor:ktor-server-tomcat:1.4.0'
+    implementation 'io.ktor:ktor-server-netty:1.4.0'
     implementation 'io.ktor:ktor-html-builder:1.4.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-html-jvm:0.7.2'
 }
