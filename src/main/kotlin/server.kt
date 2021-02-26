@@ -27,8 +27,10 @@ data class Report(val citizenId: String, val message: String, val locationData: 
 
 val reportStorage = mutableMapOf<String, Report>()
 
+const val targetIp = "127.0.0.1" //set to proper value while testing TODO: make adjustable for proper release
+
 fun main() {
-    embeddedServer(Netty, port = 8080, host = "127.0.0.1") {
+    embeddedServer(Netty, port = 8080, host = targetIp) {
         install(ContentNegotiation) {
             gson {
                 setDateFormat(DateFormat.LONG)
