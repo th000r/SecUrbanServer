@@ -1,4 +1,7 @@
 {
   "targetIp": "127.0.0.1",
-  "targetPort": 8080
+  "targetPort": 8080,
+  "dbUserName": "username",
+  "dbPassword": "password",
+  "dbName": "database_name"
 }

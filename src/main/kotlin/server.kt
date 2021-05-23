@@ -33,7 +33,13 @@ data class Report(
     val source: String
 )
 
-data class Config(val targetIp: String, val targetPort: Int)
+data class Config(
+    val targetIp: String,
+    val targetPort: Int,
+    val dbUserName: String,
+    val dbPassword: String,
+    val dbName: String
+)
 
 val reportStorage = mutableMapOf<String, Report>()
 
