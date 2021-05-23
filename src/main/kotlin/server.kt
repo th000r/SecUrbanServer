@@ -1,3 +1,4 @@
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.ktor.application.*
 import io.ktor.features.*
 import io.ktor.gson.*
@@ -22,15 +23,26 @@ fun HTML.index() {
     }
 }
 
-data class Report(val citizenId: String, val message: String, val locationData: Boolean, val picture: Boolean)
+data class Report(
+    val userId: String,
+    val message: String,
+    val location: Boolean,
+    val latitude: Double,
+    val longitude: Double,
+    val picture: Boolean,
+    val source: String
+)
 
+data class Config(val targetIp: String, val targetPort: Int)
 
 val reportStorage = mutableMapOf<String, Report>()
 
-const val targetIp = "127.0.0.1" //set to proper value while testing TODO: make adjustable for proper release
-
 fun main() {
-    embeddedServer(Netty, port = 8080, host = targetIp) {
+    val objectMapper = jacksonObjectMapper()
+    val configContent = {}.javaClass.getResource("/config.json").readText()
+    val config = objectMapper.readValue(configContent, Config::class.java)
+
+    embeddedServer(Netty, port = config.targetPort, host = config.targetIp) {
         install(ContentNegotiation) {
             gson {
                 setDateFormat(DateFormat.LONG)
