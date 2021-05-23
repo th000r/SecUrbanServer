@@ -10,7 +10,11 @@ import io.ktor.routing.*
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.*
 import kotlinx.html.*
+import java.sql.Connection
+import java.sql.DriverManager
+import java.sql.SQLException
 import java.text.DateFormat
+import java.util.*
 
 fun HTML.index() {
     head {
@@ -22,6 +26,9 @@ fun HTML.index() {
         }
     }
 }
+
+const val INSERT_STATEMENT = "insert into reports (user_id,message,location,latitude,longitude,picture,source) " +
+        "values (?,?,?,?,?,?,?)";
 
 data class Report(
     val userId: String,
@@ -47,6 +54,7 @@ fun main() {
     val objectMapper = jacksonObjectMapper()
     val configContent = {}.javaClass.getResource("/config.json").readText()
     val config = objectMapper.readValue(configContent, Config::class.java)
+    val connection = getDatabaseConnection(config.dbUserName, config.dbPassword, config.dbName)
 
     embeddedServer(Netty, port = config.targetPort, host = config.targetIp) {
         install(ContentNegotiation) {
@@ -73,10 +81,35 @@ fun main() {
             }
             post("/report") {
                 val report = call.receive<Report>()
-                val reportId = Integer.toHexString(report.hashCode())
-                reportStorage[reportId] = report
-                call.respondText("Received report $report and saved with the id $reportId.", status = HttpStatusCode.OK)
+                connection?.run {
+                    enterReportIntoDB(report, connection)
+                    call.respond(HttpStatusCode.Created)
+                } ?: run {
+                    System.err.println("DB connection missing. Failed to enter report $report")
+                    call.respond(HttpStatusCode.InternalServerError, "DB connection missing")
+                }
             }
         }
     }.start(wait = true)
 }
+
+fun getDatabaseConnection(username: String, password: String, dbName: String): Connection? =
+    try {
+        Class.forName("com.mysql.jdbc.Driver");
+        DriverManager.getConnection("jdbc:mysql://localhost:3306/$dbName", username, password)
+    } catch (ex: SQLException) {
+        ex.printStackTrace()
+        null
+    }
+
+fun enterReportIntoDB(report: Report, connection: Connection) =
+    with(connection.prepareStatement(INSERT_STATEMENT)) {
+        setString(1, report.userId)
+        setString(2, report.message)
+        setBoolean(3, report.location)
+        setDouble(4, report.latitude)
+        setDouble(5, report.longitude)
+        setBoolean(6, report.picture)
+        setString(7, report.source)
+        executeUpdate()
+    }
