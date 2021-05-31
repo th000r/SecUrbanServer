@@ -1,20 +1,20 @@
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.ktor.application.*
 import io.ktor.features.*
-import io.ktor.gson.*
-import io.ktor.html.respondHtml
-import io.ktor.http.HttpStatusCode
+import io.ktor.html.*
+import io.ktor.http.*
+import io.ktor.serialization.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import io.ktor.server.engine.embeddedServer
+import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import kotlinx.html.*
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.SQLException
-import java.text.DateFormat
-import java.util.*
 
 fun HTML.index() {
     head {
@@ -30,6 +30,7 @@ fun HTML.index() {
 const val INSERT_STATEMENT = "insert into reports (user_id,message,location,latitude,longitude,picture,source) " +
         "values (?,?,?,?,?,?,?)";
 
+@Serializable
 data class Report(
     val userId: String,
     val message: String,
@@ -48,8 +49,6 @@ data class Config(
     val dbName: String
 )
 
-val reportStorage = mutableMapOf<String, Report>()
-
 fun main() {
     val objectMapper = jacksonObjectMapper()
     val configContent = {}.javaClass.getResource("/config.json").readText()
@@ -58,29 +57,17 @@ fun main() {
 
     embeddedServer(Netty, port = config.targetPort, host = config.targetIp) {
         install(ContentNegotiation) {
-            gson {
-                setDateFormat(DateFormat.LONG)
-                setPrettyPrinting()
-            }
+            json(Json{
+                prettyPrint = true
+                isLenient = true
+            })
         }
         routing {
             get("/") {
                 call.respondHtml(HttpStatusCode.OK, HTML::index)
             }
-            get("/report/{reportId}") {
-                val reportId = call.parameters["reportId"]
-                val report = reportStorage[reportId]
-                if (report != null) {
-                    call.respondText("$report", status = HttpStatusCode.OK)
-                } else {
-                    call.respondText("No report for id $reportId.", status = HttpStatusCode.NotFound)
-                }
-            }
-            get("/report") {
-                call.respondText("${reportStorage.keys}")
-            }
             post("/report") {
-                val report = call.receive<Report>()
+                val report = objectMapper.readValue(call.receiveText(), Report::class.java)
                 connection?.run {
                     enterReportIntoDB(report, connection)
                     call.respond(HttpStatusCode.Created)
@@ -95,7 +82,6 @@ fun main() {
 
 fun getDatabaseConnection(username: String, password: String, dbName: String): Connection? =
     try {
-        Class.forName("com.mysql.jdbc.Driver");
         DriverManager.getConnection("jdbc:mysql://localhost:3306/$dbName", username, password)
     } catch (ex: SQLException) {
         ex.printStackTrace()
