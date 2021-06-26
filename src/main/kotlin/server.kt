@@ -15,6 +15,7 @@ import kotlinx.serialization.json.Json
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.SQLException
+import java.sql.Timestamp
 
 fun HTML.index() {
     head {
@@ -27,8 +28,8 @@ fun HTML.index() {
     }
 }
 
-const val INSERT_STATEMENT = "insert into reports (user_id,message,location,latitude,longitude,picture,source) " +
-        "values (?,?,?,?,?,?,?)";
+const val INSERT_STATEMENT = "insert into reports (user_id,message,location,latitude,longitude,picture,source,timestamp) " +
+        "values (?,?,?,?,?,?,?,?)";
 
 @Serializable
 data class Report(
@@ -38,7 +39,8 @@ data class Report(
     val latitude: Double,
     val longitude: Double,
     val picture: Boolean,
-    val source: String
+    val source: String,
+    val timestamp: String
 )
 
 data class Config(
@@ -97,5 +99,6 @@ fun enterReportIntoDB(report: Report, connection: Connection) =
         setDouble(5, report.longitude)
         setBoolean(6, report.picture)
         setString(7, report.source)
+        setTimestamp(8, Timestamp.valueOf(report.timestamp))
         executeUpdate()
     }
