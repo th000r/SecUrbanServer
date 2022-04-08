@@ -84,11 +84,12 @@ fun main() {
                 call.respondHtml(HttpStatusCode.OK, HTML::index)
             }
 
-            post("/report") {
+            post("/api/report") {
                 // val report = objectMapper.readValue(call.receiveText(), Report::class.java)
                 var report_id: Int = 0
                 var report: Report? = null
 
+                // start transaction
                 connection?.autoCommit = false
                 connection?.run {
                     val multipart = call.receiveMultipart()
@@ -119,6 +120,8 @@ fun main() {
                         // make sure to dispose of the part after use to prevent leaks
                         part.dispose()
                     }
+
+                    // finish transaction
                     connection.commit()
                     call.respond(HttpStatusCode.Created)
                 } ?: run {
@@ -153,7 +156,7 @@ fun insertIntoReport(report: Report, connection: Connection): Int =
         val rs = generatedKeys
         if (rs.first()) {
             val id = rs.getInt(1)
-            System.out.printf("The ID of new student : %d", id)
+            // System.out.printf("id of new report : %d", id)
             return id
         } else {
             throw SQLException("No keys generated for report")
