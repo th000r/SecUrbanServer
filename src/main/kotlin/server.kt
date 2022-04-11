@@ -22,7 +22,8 @@ import kotlin.random.Random
 
 
 // for random strings
-private val charPool : List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
+private val char_pool : List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
+private const val MAX_BYTE_UPLOAD_SIZE = 10490000
 
 fun HTML.index() {
     head {
@@ -63,6 +64,11 @@ data class Config(
     val dbName: String
 )
 
+data class ReportImage(
+    val part_name: String?,
+    val file_bytes: ByteArray
+)
+
 fun main() {
     val objectMapper = jacksonObjectMapper()
     val configContent = {}.javaClass.getResource("/config.json").readText()
@@ -88,6 +94,8 @@ fun main() {
                 // val report = objectMapper.readValue(call.receiveText(), Report::class.java)
                 var report_id: Int = 0
                 var report: Report? = null
+                var report_images: MutableList<ReportImage> = mutableListOf()
+                var upload_size = 0
 
                 // start transaction
                 connection?.autoCommit = false
@@ -101,24 +109,27 @@ fun main() {
                             report = rep
                             report_id = rep_id
                         }
-                        // if part is a file (could be form item)
-                        if(part is PartData.FileItem) {
-                            // retrieve file name of upload
-                            val name = createImageName(part.name)
-                            val file = File("upload/report/$name")
 
-                            // use InputStream from part to save file
-                            part.streamProvider().use { its ->
-                                // copy the stream to the file with buffering
-                                file.outputStream().buffered().use {
-                                    // note that this is blocking
-                                    its.copyTo(it)
-                                    insertIntoReportImages(report_id, name, connection)
-                                }
-                            }
+                        if (part is PartData.FileItem) {
+                            val file_bytes = part.streamProvider().readBytes()
+                            upload_size += file_bytes.size
+                            println(file_bytes.size)
+                            report_images.add(ReportImage(part.name, file_bytes))
                         }
                         // make sure to dispose of the part after use to prevent leaks
                         part.dispose()
+                    }
+
+                    if (upload_size > MAX_BYTE_UPLOAD_SIZE) {
+                        System.err.println("Exeeded max upload size ($upload_size / $MAX_BYTE_UPLOAD_SIZE ) bytes.")
+                        call.respond(HttpStatusCode.PayloadTooLarge, "Exceeded max upload size")
+                        return@post
+                    }
+
+                    for (img in report_images) {
+                        val name = createImageName(img.part_name)
+                        File("upload/report/$name").writeBytes(img.file_bytes)
+                        insertIntoReportImages(report_id, name, connection)
                     }
 
                     // finish transaction
@@ -173,8 +184,8 @@ fun insertIntoReportImages(report_id: Int, image_name: String, connection: Conne
 // creates a random string of specified length
 fun randomString(length: Int): String {
     return (1..length)
-        .map { i -> Random.nextInt(0, charPool.size) }
-        .map(charPool::get)
+        .map { i -> Random.nextInt(0, char_pool.size) }
+        .map(char_pool::get)
         .joinToString("")
 }
 
