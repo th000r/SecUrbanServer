@@ -11,16 +11,14 @@ docker pull mariadb:latest
   1. Verify image
   docker images
 3. run container
-docker run --name mariadb_persuasion_app -v /dir/to/data/mysql-data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=[password] -p 6603:3306 -d mariadb
+docker run --name mariadb_persuasion_app -v /dir/to/data/mysql-data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=[root_password] -p 6603:3306 -d mariadb
 4. create new mysql user
   1. get container ip
   docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mariadb_persuasion_app
   2. connect to mysql
-  mysql -h [IPAddress] -P 3306 -uroot -ppwd
+  mysql -h [IPAddress] -P 3306 -uroot -p[root_password]
   3. create new user
-  CREATE USER IF NOT EXISTS pa_root@'%' IDENTIFIED BY [password];
-  GRANT ALL PRIVILEGES ON *. * TO pa_root@'%';
-  FLUSH PRIVILEGES;
+  docker exec -i mariadb_persuasion_app  mysql -uroot -p[root_password] persuasion_app < ./sql/user_setup.sql
   
 5. More commands
   1. open bash
@@ -43,7 +41,7 @@ git clone https://github.com/th000r/SecUrbanServer.git
 
 ## Create DB
 1. load sql file
-docker exec -i mariadb_persuasion_app  mysql -upa_root -p[password] persuasion_app < ./path/to/file.sql 
+docker exec -i mariadb_persuasion_app  mysql -upa_root -p[password] persuasion_app < ./sql/db_setup.sql
 
 
 
