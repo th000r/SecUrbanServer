@@ -61,6 +61,8 @@ data class Report(
 data class Config(
     val targetIp: String,
     val targetPort: Int,
+    val dbIp: String,
+    val dbPort: Int,
     val dbUserName: String,
     val dbPassword: String,
     val dbName: String
@@ -178,7 +180,7 @@ fun main() {
     }.start(wait = true)
 }
 
-fun getDatabaseConnection(username: String, password: String, dbIp: String, dbPort: Number, dbName: String): Connection? =
+fun getDatabaseConnection(username: String, password: String, dbIp: String, dbPort: Int, dbName: String): Connection? =
     try {
         DriverManager.getConnection("jdbc:mysql://$dbIp:$dbPort/$dbName", username, password)
     } catch (ex: SQLException) {
