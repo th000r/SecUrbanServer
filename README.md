@@ -43,6 +43,10 @@ git clone https://github.com/th000r/SecUrbanServer.git
 1. load sql file
 docker exec -i mariadb_persuasion_app  mysql -upa_root -p[password] persuasion_app < ./sql/db_setup.sql
 
+## Create Folder Structure for images
+1. create folder
+mkdir upload/report
+
 
 
 
