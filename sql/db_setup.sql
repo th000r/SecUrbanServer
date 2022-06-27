@@ -1,8 +1,3 @@
-CREATE DATABASE IF NOT EXISTS database_name
-CREATE USER IF NOT EXISTS username@'localhost' IDENTIFIED BY 'password';
-GRANT ALL PRIVILEGES ON *. * TO username@'localhost';
-FLUSH PRIVILEGES;
-
 CREATE DATABASE IF NOT EXISTS database_name;
 
 CREATE TABLE IF NOT EXISTS database_name.reports
