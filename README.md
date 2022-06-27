@@ -12,8 +12,8 @@ The server component of a study at Technical University of Darmstadt.
   ```docker images```
 3. run container
 ```docker run --name mariadb_persuasion_app -v /dir/to/data/mysql-data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=[root_password] -p 6603:3306 -d mariadb```
-4. create new mysql user
-  1. get container ip
+4. create new mysql user   
+   1. get container ip
   ```docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mariadb_persuasion_app```
   2. connect to mysql
   mysql -h [IPAddress] -P 3306 -uroot -p[root_password]
