@@ -10,6 +10,8 @@ import io.ktor.routing.*
 import io.ktor.serialization.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kotlinx.html.*
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -89,6 +91,38 @@ fun main() {
             get("/") {
                 call.respondHtml(HttpStatusCode.OK, HTML::index)
             }
+
+            /*
+            route("/matomo") {
+                get("index.php") {
+                    withContext(Dispatchers.IO) {
+
+                        val process = Runtime.getRuntime().exec(arrayOf("php", "-f", "D:/Workspace/TUD/SecUrbanServer/matomo/index.php"))
+                        call.respondBytes(process.inputStream.readBytes(), contentType = ContentType.Text.Html)
+                    }
+                }
+
+                get("index.php?module=Login") {
+                    withContext(Dispatchers.IO) {
+
+                        val process = Runtime.getRuntime().exec(arrayOf("php", "-f", "D:/Workspace/TUD/SecUrbanServer/matomo/index.php?module=Login"))
+                        call.respondBytes(process.inputStream.readBytes(), contentType = ContentType.Text.Html)
+                    }
+                }
+            }
+
+            route("/matomo") {
+                get("matomo.php") {
+                    withContext(Dispatchers.IO) {
+                        println("matomo received")
+                        val process = Runtime.getRuntime().exec("php -f D:\\Workspace\\TUD\\SecUrbanServer\\matomo\\matomo.php");
+                        //val process = ProcessBuilder().command("D:\\Workspace\\TUD\\PHP", "php", "-f", "matomo/index.php").start()
+                        // process.waitFor()
+                    }
+                }
+            }
+
+             */
 
             post("/api/report") {
                 // val report = objectMapper.readValue(call.receiveText(), Report::class.java)

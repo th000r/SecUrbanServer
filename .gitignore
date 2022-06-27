@@ -6,3 +6,4 @@
 
 upload/report/**
 
+git add -f gradle/wrapper/gradle-wrapper.jar
