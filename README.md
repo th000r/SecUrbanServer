@@ -7,7 +7,7 @@ The server component of a study at Technical University of Darmstadt.
 
 1. install docker
 2. docker pull maria db image
-docker pull mariadb:latest
+```docker pull mariadb:latest```
   1. Verify image
   docker images
 3. run container
