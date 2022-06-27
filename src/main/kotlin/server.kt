@@ -75,7 +75,7 @@ fun main() {
     val objectMapper = jacksonObjectMapper()
     val configContent = {}.javaClass.getResource("/config.json").readText()
     val config = objectMapper.readValue(configContent, Config::class.java)
-    val connection = getDatabaseConnection(config.dbUserName, config.dbPassword, config.dbName)
+    val connection = getDatabaseConnection(config.dbUserName, config.dbPassword, config.dbIp, config.dbPort, config.dbName)
 
     embeddedServer(Netty, port = config.targetPort, host = config.targetIp) {
         install(ContentNegotiation) {
@@ -178,9 +178,9 @@ fun main() {
     }.start(wait = true)
 }
 
-fun getDatabaseConnection(username: String, password: String, dbName: String): Connection? =
+fun getDatabaseConnection(username: String, password: String, dbIp: String, dbPort: Number, dbName: String): Connection? =
     try {
-        DriverManager.getConnection("jdbc:mysql://localhost:3306/$dbName", username, password)
+        DriverManager.getConnection("jdbc:mysql://$dbIp:$dbPort/$dbName", username, password)
     } catch (ex: SQLException) {
         ex.printStackTrace()
         null

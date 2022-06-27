@@ -1,7 +1,9 @@
 {
   "targetIp": "127.0.0.1",
   "targetPort": 8888,
+  "dbIp": "127.0.0.1",
+  "dbPort": 3306,
   "dbUserName": "username",
   "dbPassword": "password",
-  "dbName": "database_name"
+  "dbName": "database_name",
 }
