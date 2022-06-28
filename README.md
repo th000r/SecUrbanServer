@@ -3,6 +3,11 @@ The server component of a study at Technical University of Darmstadt.
 
 # Setup (with Docker Container for MariaDB)
 
+## Create SQL Files
+- copy/paste files under "sql/"
+- rename and remove the first underscore ("_") e.g. _db_setup.sql to db_setup.sql
+- edit files and replace username, databasename etc.
+
 ## Docker (MariaDB)
 
 1. install docker
@@ -50,7 +55,7 @@ The server component of a study at Technical University of Darmstadt.
 1. build docker file\
 ```docker build -t persuasion_app_server .```
 2. run docker container
-``run --name persuasion_app_server -v /dir/to/data/mysql-data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=[root_password] -e target_ip=[target_ip] -e target_port=[target_port] -e db_user=[db_user] -e db_pw=[db_pw] -e db_name=persuasion_app -p 8888:8888 -d persuasion_app_server```
+```docker run --name persuasion_app_server -v /home/[user]/[pathtoserver]/mysql-data:/var/lib/mysql -v /home/[user]/[pathtoserver]/sql/user_setup.sql:/home/persuasion_app/sql/user_setup.sql -v /home/[user]/[pathtoserver]/sql/db_setup.sql:/home/persuasion_app/sql/db_setup.sql -e MYSQL_ROOT_PASSWORD=[root_password] -e db_root_pw=[root_password] -e db_user=[db_user] -e db_pw=[db_pw] -e db_name=persuasion_app -p 8888:8888 6603:3306 -d persuasion_app_server```
 
 
 
