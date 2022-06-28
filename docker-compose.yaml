@@ -1,9 +1,10 @@
-version: "0.1a"
+version: "3.8"
 services:
-  mysql:
-    build: ./docker
+  mariadb:
     ports:
       - "6603:3306"
-    args:
-      - db_root_pw=pw
+    build:
+      context: ./docker
+      args:
+        - db_root_pw=pw
 
