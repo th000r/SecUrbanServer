@@ -16,7 +16,7 @@ The server component of a study at Technical University of Darmstadt.
    1. get container ip\
    ```docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mariadb_persuasion_app```
    2. connect to mysql\
-   ```mysql -h [IPAddress] -P 3306 -uroot -p[root_password]```
+   ```mysql -h 127.0.0.1 -P 6603 -uroot -p[root_password]```
    3. create new user\
   ```docker exec -i mariadb_persuasion_app  mysql -uroot -p[root_password] persuasion_app < ./sql/user_setup.sql```   
 5. More commands
@@ -46,6 +46,11 @@ The server component of a study at Technical University of Darmstadt.
 1. create folder\
 ```mkdir upload/report```
 
+## Run provided Dockerfile
+1. build docker file\
+```docker build -t persuasion_app_server .```
+2. run docker container
+``run --name persuasion_app_server -v /dir/to/data/mysql-data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=[root_password] -e target_ip=[target_ip] -e target_port=[target_port] -e db_user=[db_user] -e db_pw=[db_pw] -e db_name=persuasion_app -p 8888:8888 -d persuasion_app_server```
 
 
 
