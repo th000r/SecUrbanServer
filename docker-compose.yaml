@@ -1,0 +1,9 @@
+version: "0.1a"
+services:
+  mysql:
+    build: ./docker
+    ports:
+      - "6603:3306"
+    args:
+      - db_root_pw=pw
+
