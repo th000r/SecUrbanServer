@@ -4,7 +4,7 @@ services:
     ports:
       - "6603:3306"
     build:
-      context: ./docker
+      context: .
       args:
-        - db_root_pw=pw
+        - "db_root_pw=pw"
 
