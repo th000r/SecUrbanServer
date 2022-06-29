@@ -30,9 +30,5 @@ services:
       - "MARIADB_DATABASE=persuasion_app"
       - "MARIADB_USER=pa_root"
       - "MARIADB_PASSWORD=${db_pw}"
-    healthcheck:
-      test: "/usr/bin/mysql --user=pa_root --password=${db_pw} --execute \"SHOW DATABASES;\""
-      timeout: 5s
-      retries: 10
 
 
