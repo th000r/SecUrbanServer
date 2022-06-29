@@ -52,12 +52,3 @@ compileTestKotlin {
 application {
     mainClassName = 'ServerKt'
 }
-
-jar {
-    baseName 'server'
-    manifest {
-        attributes 'Main-Class': 'server'
-    }
-
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-}
