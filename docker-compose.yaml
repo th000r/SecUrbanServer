@@ -9,7 +9,7 @@ services:
     ports:
       - "8888:8080"
     depends_on:
-      persuasion_app_db:
+      - "persuasion_app_db:"
         condition: service_healthy
 
   persuasion_app_db:
