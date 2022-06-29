@@ -1,5 +1,6 @@
 version: "3.8"
 services:
+
   persuasion_app_backend:
     container_name: persuasion_app_backend
     build:
@@ -8,7 +9,6 @@ services:
     restart: always
     volumes:
       - ./build/libs:/home/persuasion_app_backend/jar
-      - ./scripts:/home/persuasion_app/scripts
     ports:
       - "8888:8080"
     depends_on:
