@@ -17,5 +17,5 @@ RUN mkdir report
 
 # run server
 COPY ./build/libs/SmartCityStudyServer-1.0-SNAPSHOT-all.jar /home/persuasion_app_backend/backend.jar
-RUN chmod 755 /home/persuasion_app_backend/jar/backend.jar
+RUN chmod 755 /home/persuasion_app_backend/backend.jar
 ENTRYPOINT ["java","-jar","backend.jar"]
