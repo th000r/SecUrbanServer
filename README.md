@@ -58,7 +58,7 @@ The server component of a study at Technical University of Darmstadt.
 ```docker run --name persuasion_app_server -v /home/[user]/[pathtoserver]/mysql-data:/var/lib/mysql -v /home/[user]/[pathtoserver]/sql/user_setup.sql:/home/persuasion_app/sql/user_setup.sql -v /home/[user]/[pathtoserver]/sql/db_setup.sql:/home/persuasion_app/sql/db_setup.sql -e MYSQL_ROOT_PASSWORD=[root_password] -e db_root_pw=[root_password] -e db_user=[db_user] -e db_pw=[db_pw] -e db_name=persuasion_app -p 8888:8888 6603:3306 -d persuasion_app_server```
 
 3. run docker-compose\
-```sudo db_root_pw=pw docker-compose run mariadb```
+```sudo db_root_pw=pw db_pw=pw docker-compose up```
 
 
 
