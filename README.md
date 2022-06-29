@@ -15,11 +15,13 @@ The server component of a study at Technical University of Darmstadt.
 ### Build and run
 1. clone project\
 ```git clone https://github.com/th000r/SecUrbanServer.git```
-2. build jar
+2. configuration
+   1. (optional) change db user password in config.json
+   2. (optional) change exposed ports in docker-compose.yaml
+3. build jar
    1. build fatJar with gradle shadow plugin\
    ```./gradlew shadowJar```
    2. change jar name under #run server in backend.Dockerfile to match jar in build/libs
-3. change db user password in config.json
 4. build and run containers and set db root password and db user password (same as step 3)\
 ```db_root_pw=pw db_pw=pw docker-compose up --force-recreate -d```
 5. More commands
@@ -35,8 +37,3 @@ The server component of a study at Technical University of Darmstadt.
    ```docker container ls -a```
    5. show logs
    ```docker logs --tail 50 --follow --timestamps [containerID]```
-
-## Configuration
-- PORTS: ports can be edited in docker-compose.yaml
-
-
