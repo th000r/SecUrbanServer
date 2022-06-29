@@ -10,7 +10,7 @@ services:
       - "8888:8080"
     depends_on:
       - "persuasion_app_db"
-        command: ["./wait-for-it.sh", "persuasion_app_db:6603", "mysql", "--", "user=pa_root", "--", "password=${db_pw}", "--", "execute \"SHOW DATABASES;\"" ]
+        command: ["./scripts/wait-for-it.sh", "persuasion_app_db:6603", "mysql", "--", "user=pa_root", "--", "password=${db_pw}", "--", "execute \"SHOW DATABASES;\"" ]
         
 
   persuasion_app_db:
