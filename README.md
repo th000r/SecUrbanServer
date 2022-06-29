@@ -19,9 +19,10 @@ The server component of a study at Technical University of Darmstadt.
    1. build fatJar with gradle shadow plugin\
    ```./gradlew shadowJar```
    2. change jar name under #run server in backend.Dockerfile to match jar in build/libs
-3. build and run containers and set db root password and db user password\
+3. change db user password in config.json
+4. build and run containers and set db root password and db user password (same as step 3)\
 ```db_root_pw=pw db_pw=pw docker-compose up --force-recreate -d```
-4. More commands
+5. More commands
    1. open bash\
   ```docker exec -it mariadb_persuasion_app bash```
    2. stop container\
