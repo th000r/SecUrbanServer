@@ -1,7 +1,10 @@
 #!/bin/bash
 docker stop persuasion_app_backend
 docker stop persuasion_app_db
+docker stop persuasion_app_matomo
 docker rm persuasion_app_backend
 docker rm persuasion_app_db
+docker rm persuasion_app_matomo
 docker rmi securbanserver_persuasion_app_backend
 docker rmi securbanserver_persuasion_app_db
+docker rmi securbanserver_persuasion_app_matomo
