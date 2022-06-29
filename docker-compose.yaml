@@ -6,8 +6,6 @@ services:
     build:
       context: .
       dockerfile: ./docker/backend.Dockerfile
-    volumes:
-      - ./build/libs/SmartCityStudyServer-1.0-SNAPSHOT-all.jar:/home/persuasion_app_backend/jar/backend.jar
     ports:
       - "8888:8080"
     depends_on:
