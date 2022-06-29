@@ -1,7 +1,7 @@
 {
-  "targetIp": "192.168.0.73",
+  "targetIp": "127.0.0.1",
   "targetPort": 8080,
-  "dbIp": "persuasion_app_db",
+  "dbIp": "127.0.0.1",
   "dbPort": 6603,
   "dbUserName": "pa_root",
   "dbPassword": "pw",
