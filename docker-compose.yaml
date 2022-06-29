@@ -17,6 +17,8 @@ services:
     build:
       context: .
       dockerfile: ./docker/matomo.Dockerfile
+    ports:
+      - "8887:80"
     links:
       - "persuasion_app_db"
     volumes:
