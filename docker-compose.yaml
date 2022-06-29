@@ -27,7 +27,7 @@ services:
       - "MATOMO_DATABASE_PASSWORD=${db_pw}"
       - "MATOMO_DATABASE_DBNAME=persuasion_app_matomo"
 
-    depens_on:
+    depends_on:
       - "persuasion_app_db"
     command: ["./scripts/wait-for-it.sh", "127.0.0.1:6603", "--", "mysql", "-upa_root", "-p${db_pw}", "-e", "\"SHOW DATABASES;\"", "-h", "127.0.0.1", "-P", "6603"]
 
