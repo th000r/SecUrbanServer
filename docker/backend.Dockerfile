@@ -8,6 +8,7 @@ RUN mkdir jar
 RUN mkdir scripts
 
 COPY ./scripts /home/persuasion_app_backend/scripts
+RUN chmod 755 /home/persuasion_app_backend/scripts/wait-for-it.sh
 
 # run server
 #ENTRYPOINT ["java","-jar","/jar/SmartCityStudyServer-1.0-SNAPSHOT-all.jar"]
