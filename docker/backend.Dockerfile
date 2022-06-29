@@ -7,5 +7,4 @@ WORKDIR /home/persuasion_app_backend
 RUN mkdir jar
 
 # run server
-ENTRYPOINT ["java","-jar","/jar/SmartCityStudyServer-1.0-SNAPSHOT-all.jar"]
-CMD ["-start"]
+#ENTRYPOINT ["java","-jar","/jar/SmartCityStudyServer-1.0-SNAPSHOT-all.jar"]
