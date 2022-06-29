@@ -14,7 +14,7 @@ The server component of a study at Technical University of Darmstadt.
 
 ### Build and run
 1. build and run containers and set db root password and db user password
-```db_root_pw=pw db_pw=pw docker-compose up -d```
+```db_root_pw=pw db_pw=pw docker-compose up --force-recreate -d```
 2. More commands
    1. open bash\
   ```docker exec -it mariadb_persuasion_app bash```
