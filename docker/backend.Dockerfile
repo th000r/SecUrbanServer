@@ -3,7 +3,8 @@ FROM openjdk:11
 
 WORKDIR /home
 RUN mkdir persuasion_app_backend
+WORKDIR /home/persuasion_app_backend
+RUN mkdir jar
 
-# copy jar
-COPY ./build/libs/*.jar /persuasion_app_backend/ktor-backend.jar
-ENTRYPOINT ["java","-jar","/persuasion_app_backend/ktor-backend.jar"]
+# run server
+ENTRYPOINT ["java","-jar","/jar/SmartCityStudyServer-1.0-SNAPSHOT-all.jar"]
