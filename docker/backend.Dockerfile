@@ -11,4 +11,4 @@ COPY ./scripts/wait-for-it.sh /home/persuasion_app_backend/scripts/wait-for-it.s
 RUN chmod 755 /home/persuasion_app_backend/scripts/wait-for-it.sh
 
 # run server
-#ENTRYPOINT ["java","-jar","/jar/SmartCityStudyServer-1.0-SNAPSHOT-all.jar"]
+ENTRYPOINT ["java","-jar","/jar/SmartCityStudyServer-1.0-SNAPSHOT-all.jar"]
