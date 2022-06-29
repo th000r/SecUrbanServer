@@ -1,8 +1,7 @@
 version: "3.8"
 services:
   persuasion_app_mariadb:
-    ports:
-      - "6603:3306"
+    container_name: persuasion_app_mariadb
     build:
       context: .
       dockerfile: ./docker/mariadb.Dockerfile
@@ -10,6 +9,8 @@ services:
     volumes:
       - ./mariadb-data:/var/lib/mysql
       - ./sql:/docker-entrypoint-initdb.d
+    ports:
+      - "6603:3306"
     environment:
       - "MARIADB_ROOT_PASSWORD=${db_root_pw}"
       - "MARIADB_DATABASE=persuasion_app"
