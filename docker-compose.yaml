@@ -13,7 +13,7 @@ services:
       - "8888:8080"
     depends_on:
       - "persuasion_app_db"
-    command: ["./scripts/wait-for-it.sh", "127.0.0.1:6603", "--", "mysql", "-upa_root", "-p${db_pw}", "-e", "\"SHOW DATABASES;\"", "-h", "127.0.0.1", "-P", "6603"]
+    #command: ["./scripts/wait-for-it.sh", "127.0.0.1:6603", "--", "mysql", "-upa_root", "-p${db_pw}", "-e", "\"SHOW DATABASES;\"", "-h", "127.0.0.1", "-P", "6603"]
     ]
         
 
