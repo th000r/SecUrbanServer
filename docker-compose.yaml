@@ -6,7 +6,6 @@ services:
     build:
       context: .
       dockerfile: ./docker/backend.Dockerfile
-    restart: always
     volumes:
       - ./build/libs:/home/persuasion_app_backend/jar
     ports:
