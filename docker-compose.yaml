@@ -5,6 +5,11 @@ services:
       - "6603:3306"
     build:
       context: .
-      args:
-        - "db_root_pw=pw"
+      dockerfile: ./docker/mariadb.Dockerfile
+    environment:
+      - "MARIADB_ROOT_PASSWORD=${db_root_pw}"
+      - "MARIADB_DATABASE=persuasion_app"
+      - "MARIADB_USER=pa_root"
+      - "MARIADB_PASSWORD=${db_pw}"
+
 

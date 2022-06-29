@@ -1,6 +1,6 @@
-CREATE DATABASE IF NOT EXISTS database_name;
+-- CREATE DATABASE IF NOT EXISTS persuasion_app;
 
-CREATE TABLE IF NOT EXISTS database_name.reports
+CREATE TABLE IF NOT EXISTS persuasion_app.reports
     (id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     user_id VARCHAR(100) NOT NULL,
     message VARCHAR(255) NOT NULL,
@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS database_name.reports
     timestamp TIMESTAMP NOT NULL,
     PRIMARY KEY (id));
 
-CREATE TABLE IF NOT EXISTS database_name.report_images(
+CREATE TABLE IF NOT EXISTS persuasion_app.report_images(
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     report_id INT UNSIGNED NOT NULL,
     image_name VARCHAR(30) NOT NULL,
