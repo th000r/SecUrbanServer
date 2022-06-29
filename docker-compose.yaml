@@ -1,10 +1,22 @@
 version: "3.8"
 services:
-  persuasion_app_mariadb:
-    container_name: persuasion_app_mariadb
+  persuasion_app_backend:
+    container_name: persuasion_app_backend
     build:
       context: .
-      dockerfile: ./docker/mariadb.Dockerfile
+      dockerfile: ./docker/backend.Dockerfile
+    restart: always
+    ports:
+      - "8888:8080"
+    depends_on:
+      persuasion_app_db:
+        condition: service_healthy
+
+  persuasion_app_db:
+    container_name: persuasion_app_db
+    build:
+      context: .
+      dockerfile: ./docker/db.Dockerfile
     restart: always
     volumes:
       - ./mariadb-data:/var/lib/mysql
@@ -17,5 +29,9 @@ services:
       - "MARIADB_DATABASE=persuasion_app"
       - "MARIADB_USER=pa_root"
       - "MARIADB_PASSWORD=${db_pw}"
+    healthcheck:
+      test: "/usr/bin/mysql --user=pa_root --password=${db_pw} --execute \"SHOW DATABASES;\""
+      timeout: 5s
+      retries: 10
 
 

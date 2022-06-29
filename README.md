@@ -1,30 +1,21 @@
 # persuasion app server
 The server component of a study at Technical University of Darmstadt.
 
-# Setup (with Docker Container for MariaDB)
+# Setup
 
-## Create SQL Files
-- copy/paste files under "sql/"
-- rename and remove the first underscore ("_") e.g. _db_setup.sql to db_setup.sql
-- edit files and replace username, databasename etc.
-
-## Docker (MariaDB)
-
+## Docker
 1. install docker
-2. docker pull maria db image\
-```docker pull mariadb:latest```
-  1. Verify image\
-  ```docker images```
-3. run container\
-```docker run --name mariadb_persuasion_app -v /dir/to/data/mysql-data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=[root_password] -p 6603:3306 -d mariadb```
-4. create new mysql user   
-   1. get container ip\
-   ```docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mariadb_persuasion_app```
-   2. connect to mysql\
-   ```mysql -h 127.0.0.1 -P 6603 -uroot -p[root_password]```
-   3. create new user\
-  ```docker exec -i mariadb_persuasion_app  mysql -uroot -p[root_password] persuasion_app < ./sql/user_setup.sql```   
-5. More commands
+2. install docker-compose
+
+### Info
+- docker-compose.yaml builds and runs all containers
+- if mariadb is created the first time and you want to run sql scripts, you have to mount them in docker-compose.yaml
+   - sql scripts are not executed if folder "mariadb-data" contains files, run "/scripts/delete.db.sh" to delete them (make a backup!)
+
+### Build and run
+1. build and run containers and set db root password and db user password
+```db_root_pw=pw db_pw=pw docker-compose up -d```
+2. More commands
    1. open bash\
   ```docker exec -it mariadb_persuasion_app bash```
    2. stop container\
@@ -33,6 +24,9 @@ The server component of a study at Technical University of Darmstadt.
    ```docker rm [containerID]```
    4. list all containers\
    ```docker container ls -a```
+
+## Configuration
+- PORTS: ports can be edited in docker-compose.yaml
 
   
   

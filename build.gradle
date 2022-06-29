@@ -1,6 +1,7 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.4.30'
     id 'application'
+    id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
 group = 'de.tudarmstadt'
@@ -50,4 +51,13 @@ compileTestKotlin {
 
 application {
     mainClassName = 'ServerKt'
+}
+
+jar {
+    baseName 'server'
+    manifest {
+        attributes 'Main-Class': 'server'
+    }
+
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 }
