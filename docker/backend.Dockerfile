@@ -4,7 +4,6 @@ FROM openjdk:11
 WORKDIR /home
 RUN mkdir persuasion_app_backend
 WORKDIR /home/persuasion_app_backend
-RUN mkdir jar
 RUN mkdir scripts
 
 # copy wait-for-it.sh to verfiy that database is running
