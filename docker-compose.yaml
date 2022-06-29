@@ -8,7 +8,8 @@ services:
     restart: always
     volumes:
       - ./mariadb-data:/var/lib/mysql
-      - ./sql:/docker-entrypoint-initdb.d
+      - ./sql/user_setup.sql:/docker-entrypoint-initdb.d/1.sql
+      - ./sql/db_setup.sql:/docker-entrypoint-initdb.d/2.sql
     ports:
       - "6603:3306"
     environment:
