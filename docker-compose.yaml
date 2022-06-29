@@ -12,6 +12,24 @@ services:
       - "persuasion_app_db"
     command: ["./scripts/wait-for-it.sh", "127.0.0.1:6603", "--", "mysql", "-upa_root", "-p${db_pw}", "-e", "\"SHOW DATABASES;\"", "-h", "127.0.0.1", "-P", "6603"]
         
+  persuasion_app_matomo:
+    container_name: persuasion_app_matomo
+    build:
+      context: .
+      dockerfile: ./docker/matomo.Dockerfile
+    links:
+      - "persuasion_app_db"
+    volumes:
+      -  ./matomo:/var/www/html
+    environment:
+      - "MATOMO_DATABASE_HOST=persuasion_app_db"
+      - "MATOMO_DATABASE_USERNAME=pa_root"
+      - "MATOMO_DATABASE_PASSWORD=${db_pw}"
+      - "MATOMO_DATABASE_DBNAME=persuasion_app_matomo"
+
+    depens_on:
+      - "persuasion_app_db"
+    command: ["./scripts/wait-for-it.sh", "127.0.0.1:6603", "--", "mysql", "-upa_root", "-p${db_pw}", "-e", "\"SHOW DATABASES;\"", "-h", "127.0.0.1", "-P", "6603"]
 
   persuasion_app_db:
     container_name: persuasion_app_db
@@ -23,6 +41,7 @@ services:
       - ./mariadb-data:/var/lib/mysql
       - ./sql/user_setup.sql:/docker-entrypoint-initdb.d/1.sql
       - ./sql/db_setup.sql:/docker-entrypoint-initdb.d/2.sql
+      - ./sql/matomo_setup.sql:/docker-entrypoint-initdb.d/3.sql
     ports:
       - "6603:3306"
     environment:
