@@ -5,3 +5,9 @@
 /local.properties
 
 upload/report/**
+
+# MariaDB
+mariadb-data/**
+
+# Matomo
+matomo/**

@@ -9,8 +9,10 @@ The server component of a study at Technical University of Darmstadt.
 
 ### Info
 - docker-compose.yaml builds and runs all containers
-- if mariadb is created the first time and you want to run sql scripts, you have to mount them in docker-compose.yaml
-   - sql scripts are not executed if folder "mariadb-data" contains files, run "/scripts/delete.db.sh" to delete them (make a backup!)
+#### SQL
+- if mariadb is created the first time and you want to run sql scripts, you have to mount them in docker-compose.yaml 
+   - sql scripts are not executed if folder "mariadb-data" contains files, run "/scripts/delete-db.sh" to delete them (make a backup!)
+- sql scripts are executed in alphabetical order
 
 ### Build and run
 1. clone project\
@@ -35,5 +37,9 @@ The server component of a study at Technical University of Darmstadt.
    ```docker rmi [containerID]```
    4. list all containers\
    ```docker container ls -a```
-   5. show logs
+   5. show logs\
    ```docker logs --tail 50 --follow --timestamps [containerID]```
+6. Scripts
+   1. scripts are found under /scripts
+   2. "delete-db.sh": deletes all sql files (make backup!)
+   3. "remove-docker-files.sh": stops and deletes all running containers/images
