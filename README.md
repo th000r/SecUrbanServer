@@ -3,6 +3,11 @@ The server component of a study at Technical University of Darmstadt.
 
 # Setup
 
+## Config
+1. copy src/main/resources/config.template.json 
+2. paste and rename to "config.json"
+3. change configurations
+
 ## Docker
 1. install docker
 2. install docker-compose

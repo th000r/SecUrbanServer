@@ -11,3 +11,7 @@ mariadb-data/**
 
 # Matomo
 matomo/**
+
+# Server config
+src/main/resources/config.json
+

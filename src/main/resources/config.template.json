@@ -4,6 +4,6 @@
   "dbIp": "persuasion_app_db",
   "dbPort": 3306,
   "dbUserName": "pa_root",
-  "dbPassword": "pw",
+  "dbPassword": "***",
   "dbName": "persuasion_app"
 }
